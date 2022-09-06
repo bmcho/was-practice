@@ -1,0 +1,2 @@
+//Requesting GET (/calculate) RestAP And queryParams(operand1, operator, operand2)
+GET http://localhost:8080/calculate?operand1=11&operator=*&operand2=55
