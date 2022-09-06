@@ -6,10 +6,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CustomWebApplicationsServer {
 
     private final int port;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(10);
     private static Logger logger = LoggerFactory.getLogger(CustomWebApplicationsServer.class);
 
     public CustomWebApplicationsServer(int port) {
@@ -26,8 +29,7 @@ public class CustomWebApplicationsServer {
             while ((clientSocket = serverSocket.accept()) != null) {
                 logger.info("[CustomWebApplicationServer] client connected!");
 
-                new Thread(new ClientRequestHandler(clientSocket)).start();
-
+                executorService.execute(new ClientRequestHandler(clientSocket));
             }
         }
     }
